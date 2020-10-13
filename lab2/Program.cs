@@ -11,6 +11,8 @@ namespace lab2
         {
             Faker faker = new Faker();
             Person obj = faker.Create<Person>();
+            Console.WriteLine(obj._name);
+            Console.ReadLine();
         }
     }
 

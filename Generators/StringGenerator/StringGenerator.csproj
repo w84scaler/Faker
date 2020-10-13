@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\..\lab2\bin\Debug\netcoreapp3.1\Plugins\</OutputPath>
+	<GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+	
+  <ItemGroup>
+    <ProjectReference Include="..\..\FakerLib\FakerLib.csproj" />
+  </ItemGroup>
+
+</Project>
