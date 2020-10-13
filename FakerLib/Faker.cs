@@ -10,8 +10,9 @@ namespace FakerLib
 {
     public class Faker
     {
-        private List<object> dodgelist = new List<object>();
+        private Stack<Type> dodgestack = new Stack<Type>();
         private List<IGenerator> generators = new PluginLoader().RefreshPlugins();
+        
         public T Create<T>()
         {
             return (T)Create(typeof(T));
@@ -21,28 +22,14 @@ namespace FakerLib
         {
             var ctors = t.GetConstructors(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic).OrderByDescending(ctor => ctor.GetParameters().Length).ToList();
             object obj = null;
-
+            dodgestack.Push(t);
             foreach (var ctor in ctors)
             {
-                List<object> curlist = new List<object>();
                 var ctorParams = ctor.GetParameters();
                 List<object> ctorValues = new List<object>();
                 foreach (var ctorparam in ctorParams)
                 {
-                    object ctorValue = null;
-                    foreach (IGenerator generator in generators)
-                    {
-                        if (generator.CanGenerate(ctorparam.ParameterType))
-                        {
-                            ctorValue = generator.Generate(null);
-                            break;
-                        }
-                    }
-                    if (ctorValue == null)
-                    {
-                        ctorValue = Create(ctorparam.ParameterType);
-                    }
-                    ctorValues.Add(ctorValue);
+                    ctorValues.Add(GenerateValue(ctorparam.ParameterType, null));
                 }
                 try
                 {
@@ -54,7 +41,42 @@ namespace FakerLib
                     continue;
                 }
             }
+            var fields = t.GetFields();
+            foreach (var field in fields)
+            {
+                if (field.GetValue(obj) != GetDefaultValue(field.FieldType))
+                {
+                    field.SetValue(obj, GenerateValue(field.FieldType, null));
+                }
+            }
+            var properties = t.GetProperties();
+            foreach (var property in properties)
+            {
+                if (property.GetValue(obj) != GetDefaultValue(property.PropertyType))
+                {
+                    property.SetValue(obj, GenerateValue(property.PropertyType, null));
+                }
+            }
+            dodgestack.Pop();
             return obj;
+        }
+
+        private object GenerateValue(Type t, GeneratorContext context)
+        {
+            object value = null;
+            foreach (IGenerator generator in generators)
+            {
+                if (generator.CanGenerate(t))
+                {
+                    value = generator.Generate(context);
+                    break;
+                }
+            }
+            if (value == null & !dodgestack.Contains(t))
+            {
+                value = Create(t);
+            }
+            return value;
         }
 
         private static object GetDefaultValue(Type t)

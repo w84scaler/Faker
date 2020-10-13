@@ -75,6 +75,8 @@ namespace lab2
     {
         public bool _pososal;
         public string _name;
+        private BusinessCard _card1;
+        private BusinessCard _card2;
         private int _age { get; }
         public Person()
         {
@@ -97,7 +99,14 @@ namespace lab2
             _name = name;
             _pososal = pososal;
             _age = age;
-            throw new Exception();
+            //throw new Exception();
         }
+    }
+
+    public class BusinessCard
+    {
+        public Person _person;
+        
+        private int id;
     }
 }
