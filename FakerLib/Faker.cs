@@ -44,7 +44,7 @@ namespace FakerLib
             var fields = t.GetFields();
             foreach (var field in fields)
             {
-                if (field.GetValue(obj) != GetDefaultValue(field.FieldType))
+                if (Equals(field.GetValue(obj),GetDefaultValue(field.FieldType)))
                 {
                     field.SetValue(obj, GenerateValue(field.FieldType, null));
                 }
@@ -52,7 +52,7 @@ namespace FakerLib
             var properties = t.GetProperties();
             foreach (var property in properties)
             {
-                if (property.GetValue(obj) != GetDefaultValue(property.PropertyType))
+                if (Equals(property.GetValue(obj),GetDefaultValue(property.PropertyType)))
                 {
                     property.SetValue(obj, GenerateValue(property.PropertyType, null));
                 }

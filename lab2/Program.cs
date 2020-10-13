@@ -11,7 +11,6 @@ namespace lab2
         {
             Faker faker = new Faker();
             Person obj = faker.Create<Person>();
-            Console.WriteLine(obj._name);
             Console.ReadLine();
         }
     }
@@ -75,9 +74,9 @@ namespace lab2
     {
         public bool _pososal;
         public string _name;
-        private BusinessCard _card1;
-        private BusinessCard _card2;
-        private int _age { get; }
+        public BusinessCard _card1;
+        public BusinessCard _card2;
+        public int _age { get; set; }
         public Person()
         {
             _pososal = false;
@@ -99,14 +98,13 @@ namespace lab2
             _name = name;
             _pososal = pososal;
             _age = age;
-            //throw new Exception();
+            throw new Exception();
         }
     }
 
     public class BusinessCard
     {
         public Person _person;
-        
-        private int id;
+        public int id;
     }
 }
