@@ -21,26 +21,33 @@ namespace FakerLib
 
         private object Create(Type t)
         {
-            var ctors = t.GetConstructors(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic).OrderByDescending(ctor => ctor.GetParameters().Length).ToList();
             object obj = null;
             dodgestack.Push(t);
-            foreach (var ctor in ctors)
+            var ctors = t.GetConstructors(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic).OrderByDescending(ctor => ctor.GetParameters().Length).ToList();
+            if (ctors.Count != 0)
             {
-                var ctorParams = ctor.GetParameters();
-                List<object> ctorValues = new List<object>();
-                foreach (var ctorparam in ctorParams)
+                foreach (var ctor in ctors)
                 {
-                    ctorValues.Add(GenerateValue(ctorparam.ParameterType, context));
+                    var ctorParams = ctor.GetParameters();
+                    List<object> ctorValues = new List<object>();
+                    foreach (var ctorparam in ctorParams)
+                    {
+                        ctorValues.Add(GenerateValue(ctorparam.ParameterType, context));
+                    }
+                    try
+                    {
+                        obj = ctor.Invoke(ctorValues.ToArray());
+                        break;
+                    }
+                    catch
+                    {
+                        continue;
+                    }
                 }
-                try
-                {
-                    obj = ctor.Invoke(ctorValues.ToArray());
-                    break;
-                }
-                catch
-                {
-                    continue;
-                }
+            }
+            else
+            {
+                obj = Activator.CreateInstance(t);
             }
             var fields = t.GetFields();
             foreach (var field in fields)

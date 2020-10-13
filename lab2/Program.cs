@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using FakerLib;
 
 namespace lab2
@@ -17,39 +16,47 @@ namespace lab2
 
     public class Person
     {
-        public bool _pososal;
-        public string _name;
-        public BusinessCard _card1;
-        public BusinessCard _card2;
-        public int _age { get; set; }
-        public Person()
-        {
-            _pososal = false;
-        }
+        public bool alive;
+        public string name;
+        public MedCard medcard;
+        public BusinessCard businesscard;
+        public DateTime birth;
 
-        private Person(bool pososal)
-        {
-            _pososal = pososal;
-        }
+        public int age { get; set; }
 
-        private Person(string name, bool pososal)
+        private Person(string _name, bool _alive)
         {
-            _name = name;
-            _pososal = pososal;
+            name = _name;
+            alive = _alive;
         }
         
-        public Person(string name, int age, bool pososal)
+        public Person(string _name, int _age, bool _alive)
         {
-            _name = name;
-            _pososal = pososal;
-            _age = age;
+            name = _name;
+            alive = _alive;
+            age = _age;
             throw new Exception();
         }
     }
 
-    public class BusinessCard
+    public struct MedCard
     {
-        public Person _person;
+        public double t;
+        public Person person;
         public int id;
+
+        public MedCard(int _id, Person _person, double _t)
+        {
+            t = 36 + _t;
+            person = _person;
+            id = _id;
+        }
+    }
+
+    public struct BusinessCard
+    {
+        public int id;
+        public string company;
+        public Person person;
     }
 }
