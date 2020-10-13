@@ -1,18 +1,18 @@
 ﻿using FakerLib;
 using System;
 
-namespace IntGenerator
+namespace DoubleGenerator
 {
-    class IntGenerator : IGenerator
+    class DoubleGenerator : IGenerator
     {
         public bool CanGenerate(Type type)
         {
-            return type == typeof(int);
+            return type == typeof(double);
         }
 
         public object Generate(GeneratorContext context)
         {
-            return context.Random.Next(1, 100);
+            return context.Random.NextDouble();
         }
     }
 }

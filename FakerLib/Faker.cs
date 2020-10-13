@@ -12,6 +12,7 @@ namespace FakerLib
     {
         private Stack<Type> dodgestack = new Stack<Type>();
         private List<IGenerator> generators = new PluginLoader().RefreshPlugins();
+        private GeneratorContext context = new GeneratorContext(new Random(3228), null, null);
         
         public T Create<T>()
         {
@@ -29,7 +30,7 @@ namespace FakerLib
                 List<object> ctorValues = new List<object>();
                 foreach (var ctorparam in ctorParams)
                 {
-                    ctorValues.Add(GenerateValue(ctorparam.ParameterType, null));
+                    ctorValues.Add(GenerateValue(ctorparam.ParameterType, context));
                 }
                 try
                 {
@@ -46,7 +47,7 @@ namespace FakerLib
             {
                 if (Equals(field.GetValue(obj),GetDefaultValue(field.FieldType)))
                 {
-                    field.SetValue(obj, GenerateValue(field.FieldType, null));
+                    field.SetValue(obj, GenerateValue(field.FieldType, context));
                 }
             }
             var properties = t.GetProperties();
@@ -54,7 +55,7 @@ namespace FakerLib
             {
                 if (Equals(property.GetValue(obj),GetDefaultValue(property.PropertyType)))
                 {
-                    property.SetValue(obj, GenerateValue(property.PropertyType, null));
+                    property.SetValue(obj, GenerateValue(property.PropertyType, context));
                 }
             }
             dodgestack.Pop();

@@ -1,7 +1,5 @@
 ﻿using FakerLib;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StringGenerator
 {
@@ -14,7 +12,14 @@ namespace StringGenerator
 
         public object Generate(GeneratorContext context)
         {
-            return "german";
+            int StringLength = context.Random.Next(1, 100);
+            string str = String.Empty;
+            for (int i = 0; i < StringLength; i++)
+            {
+                int register = context.Random.Next(0, 2);
+                str += register == 0 ? (char)context.Random.Next(65, 91) : (char)context.Random.Next(97, 123);
+            }
+            return str;
         }
     }
 }
