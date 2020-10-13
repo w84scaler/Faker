@@ -10,7 +10,7 @@ namespace lab2
         static void Main(string[] args)
         {
             Faker faker = new Faker();
-            german obj = faker.Create<german>();
+            Person obj = faker.Create<Person>();
         }
     }
 
@@ -69,17 +69,33 @@ namespace lab2
         public AssosiationExample AnotherDTOItem;
     }
 
-    public class german
+    public class Person
     {
-        public bool pososal;
-        public german()
+        public bool _pososal;
+        public string _name;
+        private int _age { get; }
+        public Person()
         {
-            pososal = false;
+            _pososal = false;
         }
 
-        private german(bool b)
+        private Person(bool pososal)
         {
-            pososal = b;
+            _pososal = pososal;
+        }
+
+        private Person(string name, bool pososal)
+        {
+            _name = name;
+            _pososal = pososal;
+        }
+        
+        public Person(string name, int age, bool pososal)
+        {
+            _name = name;
+            _pososal = pososal;
+            _age = age;
+            throw new Exception();
         }
     }
 }
