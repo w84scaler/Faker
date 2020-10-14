@@ -15,11 +15,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntGenerator", "Generators\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StringGenerator", "Generators\StringGenerator\StringGenerator.csproj", "{965ABC3D-AFC9-4F75-8220-056184A92E57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoubleGenerator", "Generators\DoubleGenerator\DoubleGenerator.csproj", "{BF993407-906C-47CB-8D7B-CE910201FD1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoubleGenerator", "Generators\DoubleGenerator\DoubleGenerator.csproj", "{BF993407-906C-47CB-8D7B-CE910201FD1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListGenerator", "Generators\ListGenerator\ListGenerator.csproj", "{AF4FABA0-7212-44B8-B407-3906B068AD04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ListGenerator", "Generators\ListGenerator\ListGenerator.csproj", "{AF4FABA0-7212-44B8-B407-3906B068AD04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DateTimeGenerator", "Generators\DateTimeGenerator\DateTimeGenerator.csproj", "{EA656DC9-384F-4364-8B6E-1F951D80D1CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DateTimeGenerator", "Generators\DateTimeGenerator\DateTimeGenerator.csproj", "{EA656DC9-384F-4364-8B6E-1F951D80D1CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{4CB1685A-B6A1-4AA6-86F5-CDBE4DC78381}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,10 @@ Global
 		{EA656DC9-384F-4364-8B6E-1F951D80D1CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA656DC9-384F-4364-8B6E-1F951D80D1CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA656DC9-384F-4364-8B6E-1F951D80D1CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CB1685A-B6A1-4AA6-86F5-CDBE4DC78381}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CB1685A-B6A1-4AA6-86F5-CDBE4DC78381}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CB1685A-B6A1-4AA6-86F5-CDBE4DC78381}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CB1685A-B6A1-4AA6-86F5-CDBE4DC78381}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

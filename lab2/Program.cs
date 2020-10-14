@@ -12,6 +12,7 @@ namespace lab2
         {
             Faker faker = new Faker();
             List<List<Person>> obj = faker.Create<List<List<Person>>>();
+            MedCard medCard = faker.Create<MedCard>();
 
             ISerializer serializerJson = new JsonSerializer();
             ISerializer serializerXml = new myXmlSerializer();
@@ -26,6 +27,8 @@ namespace lab2
 
             fileWriter.Write(json);
             //fileWriter.Write(xml);
+
+            Console.ReadLine();
         }
     }
 

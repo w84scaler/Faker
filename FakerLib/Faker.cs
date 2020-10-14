@@ -31,7 +31,6 @@ namespace FakerLib
         private object Create(Type t)
         {
             object obj = null;
-            dodgestack.Push(t);
             var ctors = t.GetConstructors(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic).OrderByDescending(ctor => ctor.GetParameters().Length).ToList();
             if (ctors.Count != 0 && obj == null)
             {
@@ -58,6 +57,7 @@ namespace FakerLib
             {
                 obj = Activator.CreateInstance(t);
             }
+            
             var fields = t.GetFields();
             foreach (var field in fields)
             {
@@ -74,7 +74,6 @@ namespace FakerLib
                     property.SetValue(obj, GenerateValue(new GeneratorContext(random, property.PropertyType, this)));
                 }
             }
-            dodgestack.Pop();
             return obj;
         }
 
@@ -89,9 +88,11 @@ namespace FakerLib
                     break;
                 }
             }
-            if (value == null & !dodgestack.Contains(context.TargetType))
+            if (value == null && !dodgestack.Contains(context.TargetType))
             {
+                dodgestack.Push(context.TargetType);
                 value = Create(context.TargetType);
+                dodgestack.Pop();
             }
             return value;
         }

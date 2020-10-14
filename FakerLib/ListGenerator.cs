@@ -19,7 +19,14 @@ namespace FakerLib
             GeneratorContext newcontext = new GeneratorContext(context.Random, itemtype, context.Faker);
             for (int i = 0; i < listlength; i++)
             {
-                list.Add(context.Faker.GenerateValue(newcontext));
+                try
+                {
+                    list.Add(context.Faker.GenerateValue(newcontext));
+                }
+                catch
+                {
+                    break;
+                }
             }
             return list;
         }
