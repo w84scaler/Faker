@@ -1,9 +1,8 @@
-﻿using FakerLib;
-using System;
+﻿using System;
 using System.Collections;
 using System.Linq;
 
-namespace ListGenerator
+namespace FakerLib
 {
     class ListGenerator : IGenerator
     {

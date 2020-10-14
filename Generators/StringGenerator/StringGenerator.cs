@@ -12,7 +12,7 @@ namespace StringGenerator
 
         public object Generate(GeneratorContext context)
         {
-            int StringLength = context.Random.Next(1, 100);
+            int StringLength = context.Random.Next(1, 20);
             string str = String.Empty;
             for (int i = 0; i < StringLength; i++)
             {

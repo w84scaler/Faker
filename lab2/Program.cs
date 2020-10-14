@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using FakerLib;
+using lab1.Serialization;
+using lab1.Writing;
 
 namespace lab2
 {
@@ -9,8 +11,21 @@ namespace lab2
         static void Main(string[] args)
         {
             Faker faker = new Faker();
-            Person obj = faker.Create<Person>();
-            Console.ReadLine();
+            List<Person> obj = faker.Create<List<Person>>();
+
+            ISerializer serializerJson = new JsonSerializer();
+            ISerializer serializerXml = new myXmlSerializer();
+            IWriter consoleWriter = new ConsoleWriter();
+            IWriter fileWriter = new FileWriter(Environment.CurrentDirectory + "\\" + "FileName" + "." + "txt");
+
+            string json = serializerJson.Serialize(obj);
+            string xml = serializerXml.Serialize(obj);
+
+            consoleWriter.Write(json);
+            consoleWriter.Write(xml);
+
+            fileWriter.Write(json);
+            //fileWriter.Write(xml);
         }
     }
 
@@ -19,10 +34,15 @@ namespace lab2
         public bool alive;
         public string name;
         public MedCard medcard;
-        public BusinessCard businesscard;
+        public List<BusinessCard> businesscard;
         public DateTime birth;
 
         public int age { get; set; }
+
+        public Person()
+        {
+
+        }
 
         private Person(string _name, bool _alive)
         {

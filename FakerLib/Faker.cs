@@ -8,23 +8,35 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FakerLib
 {
-    public class Faker
+    public interface IFaker
     {
-        private Stack<Type> dodgestack = new Stack<Type>();
-        private List<IGenerator> generators = new PluginLoader().RefreshPlugins();
-        private GeneratorContext context = new GeneratorContext(new Random(3228), null, null);
+        T Create<T>();
+    }
+
+    public class Faker : IFaker
+    {
+        private Stack<Type> dodgestack;
+        private List<IGenerator> generators;
+        private Random random;
+        public Faker()
+        {
+            dodgestack = new Stack<Type>();
+            generators = new PluginLoader().RefreshPlugins();
+            generators.Add(new ListGenerator());
+            random = new Random(3228);
+        }
         
         public T Create<T>()
         {
-            return (T)Create(typeof(T));
+            return (T)GenerateValue(new GeneratorContext(random, typeof(T), this));
         }
 
-        private object Create(Type t)
+        internal object Create(Type t)
         {
             object obj = null;
             dodgestack.Push(t);
             var ctors = t.GetConstructors(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic).OrderByDescending(ctor => ctor.GetParameters().Length).ToList();
-            if (ctors.Count != 0)
+            if (ctors.Count != 0 && obj == null)
             {
                 foreach (var ctor in ctors)
                 {
@@ -32,7 +44,7 @@ namespace FakerLib
                     List<object> ctorValues = new List<object>();
                     foreach (var ctorparam in ctorParams)
                     {
-                        ctorValues.Add(GenerateValue(ctorparam.ParameterType, context));
+                        ctorValues.Add(GenerateValue(new GeneratorContext(random, ctorparam.ParameterType, this)));
                     }
                     try
                     {
@@ -54,7 +66,7 @@ namespace FakerLib
             {
                 if (Equals(field.GetValue(obj),GetDefaultValue(field.FieldType)))
                 {
-                    field.SetValue(obj, GenerateValue(field.FieldType, context));
+                    field.SetValue(obj, GenerateValue(new GeneratorContext(random, field.FieldType, this)));
                 }
             }
             var properties = t.GetProperties();
@@ -62,27 +74,27 @@ namespace FakerLib
             {
                 if (Equals(property.GetValue(obj),GetDefaultValue(property.PropertyType)))
                 {
-                    property.SetValue(obj, GenerateValue(property.PropertyType, context));
+                    property.SetValue(obj, GenerateValue(new GeneratorContext(random, property.PropertyType, this)));
                 }
             }
             dodgestack.Pop();
             return obj;
         }
 
-        private object GenerateValue(Type t, GeneratorContext context)
+        private object GenerateValue(GeneratorContext context)
         {
             object value = null;
             foreach (IGenerator generator in generators)
             {
-                if (generator.CanGenerate(t))
+                if (generator.CanGenerate(context.TargetType))
                 {
                     value = generator.Generate(context);
                     break;
                 }
             }
-            if (value == null & !dodgestack.Contains(t))
+            if (value == null & !dodgestack.Contains(context.TargetType))
             {
-                value = Create(t);
+                value = Create(context.TargetType);
             }
             return value;
         }
