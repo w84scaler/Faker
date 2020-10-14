@@ -1,9 +1,8 @@
-﻿using FakerLib;
-using System;
+﻿using System;
 using System.Collections;
 using System.Linq;
 
-namespace ListGenerator
+namespace FakerLib
 {
     class ListGenerator : IGenerator
     {
@@ -17,9 +16,10 @@ namespace ListGenerator
             IList list = (IList)Activator.CreateInstance(context.TargetType);
             Type itemtype = list.GetType().GetGenericArguments().Single();
             int listlength = context.Random.Next(1, 10);
+            GeneratorContext newcontext = new GeneratorContext(context.Random, itemtype, context.Faker);
             for (int i = 0; i < listlength; i++)
             {
-                list.Add(context.Faker.Create(itemtype));
+                list.Add(context.Faker.GenerateValue(newcontext));
             }
             return list;
         }

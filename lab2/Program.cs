@@ -11,7 +11,7 @@ namespace lab2
         static void Main(string[] args)
         {
             Faker faker = new Faker();
-            List<Person> obj = faker.Create<List<Person>>();
+            List<List<Person>> obj = faker.Create<List<List<Person>>>();
 
             ISerializer serializerJson = new JsonSerializer();
             ISerializer serializerXml = new myXmlSerializer();

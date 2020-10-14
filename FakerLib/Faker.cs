@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FakerLib
 {
@@ -31,7 +28,7 @@ namespace FakerLib
             return (T)GenerateValue(new GeneratorContext(random, typeof(T), this));
         }
 
-        internal object Create(Type t)
+        private object Create(Type t)
         {
             object obj = null;
             dodgestack.Push(t);
@@ -81,7 +78,7 @@ namespace FakerLib
             return obj;
         }
 
-        private object GenerateValue(GeneratorContext context)
+        internal object GenerateValue(GeneratorContext context)
         {
             object value = null;
             foreach (IGenerator generator in generators)
